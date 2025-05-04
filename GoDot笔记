@@ -1,8 +1,9 @@
-Sprite2D（图像/精灵2D）节点 其属性Texture（纹理属性）素材包拖动图片到纹理。
+Sprite2D（图像/精灵2D）节点 其属性Texture（纹理属性）素材包拖动图片到纹理。 属性 Region(区域)裁剪图片  enabled启用-eidt Region 开始裁剪
 GoDot里如果我们想做像素游戏在项目左上角项目设置里找到渲染-纹理选项，把默认的纹理选项纹理过滤改为Nearest,然后关闭设置。
-Camera（摄像/照相）节点，会捕捉物体并把他们渲染到电脑屏幕上，开发的是2D游戏创建节点为Camera2D
+Camera（摄像/照相）节点放在玩家节点下面就会跟随玩家，会捕捉物体并把他们渲染到电脑屏幕上，开发的是2D游戏创建节点为Camera2D
+Camera2D  我们要确保 玩家在相机中间 我们打开平滑设置让相机的运动更平滑 position smoothing-enabled 
 创建完成后 屏幕会有一个粉红色的框 ，可以在右面检查器找到zoom调整框的大小，也就是我们要渲染那些内容，可以用鼠标拖拽里面的数值来修改大小
-CharacterBody2D节点可以在2D游戏场景中模拟玩家的移动和物理碰撞，因此十分适合作为玩家的根节点存在。
+CharacterBody2D（2D角色身体）节点可以在2D游戏场景中模拟玩家的移动和物理碰撞，因此十分适合作为玩家的根节点存在。
 我们为玩家添加图片，还是Ctrl+A打开创捷节点面板，这次我们使用  AnimatedSprite2D(动画/精灵)节点，相比较与普通Sprite节点AnimatedSprite2D(动画/精灵)节点可以让图片动起来
 刚创建的  AnimatedSprite2D 需要在检查器设置 SpriteFrames帧数不然会报错 点击新建SpriteFrames
 在游戏中角色的动画一般是被保存在SpriteSheet图片表中
@@ -10,3 +11,8 @@ CharacterBody2D节点可以在2D游戏场景中模拟玩家的移动和物理碰
 如果把下方的 One Shot 启用 倒计时结束后就不会重新开始
 因为我们想让玩家一直发射子弹就不要勾选它
 但我们要勾选下面这个 auto start,倒计时才会在游戏开始的时候开始倒计时
+physics物理学；物理现象
+TileMapLayer(瓷砖地图) 属性 tile Set  新建瓷砖集 ， 按住shift 可以更改瓷砖大小， physics Layers 物理图层添加 有了之后去视窗下tile set 选择那些瓷砖属于这个物理层。
+因为我们不想玩家与地图里所有的物体相撞 我们想要穿过树木和灌木丛  选择Paint(绘制) 物理层0
+platforms 平台：有些会动有些不会
+Animatabelbody2D 很适合做移动平台 需要sprit2d 图像节点 
