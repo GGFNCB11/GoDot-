@@ -25,3 +25,5 @@ Area2D 创建一个区域检测是否有其他东西碰撞到了我
 物体进入信号 body_entered(body:node2D)
 检查器 collsion 可以修改图层
 射线投射节点 他会发射不可见线束来检测碰撞 RatCast2D
+
+时间尺度 设置Engine.time_scale= 0.5  这意味这 这将以一半都时间速度运行
