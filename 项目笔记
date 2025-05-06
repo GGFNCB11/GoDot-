@@ -1,0 +1,39 @@
+创建玩家身体代码CharacterBody2D ，然后创建子节点玩家动画AnimatedSprite2D 新建一个Sprite Frame 导入动画
+给玩家设置一个碰撞箱 circleShape2D 。链接主场景 给主场景一个相机节点Camera2D
+然后给玩家身体CharacterBody2D节点 上自带的脚本模板
+
+extends CharacterBody2D
+
+#速度代码
+const SPEED = 300.0
+#跳跃高度
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity
+#判断玩家是否在平台上没有就掉下去
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis("ui_left", "ui_right")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+
+#给玩家一个平台 主场景添加一个新节点2D静态物体StaticBody2D 然后给StaticBody2D一个碰撞箱子CollisionShape2D使用WorldBoundaryShape2D(一种无线延申的空气墙) 承载玩家
+然后添加瓷砖地图节点 TileMapLayer 检查器新建Tile Set  然后加载本地资源包 注意切割 16 * 16
+
+添加完地图过后 因为我们不想玩家能和所有的图快碰撞所以 设置图层 再检查器里打开Physics Laters  选择下方检查窗绘制
+选择的时候 键盘C是清楚 F是复原
+下面设置相机跟随玩家  把相机设置为玩家的子节点，就会跟着玩家跑了 。然后为了确保玩家在游戏正中心也让运动更流畅 可以打开相机的运动平滑设置 position Smoothing.
+移动平台：
