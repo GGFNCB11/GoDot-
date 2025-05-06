@@ -58,8 +58,115 @@ func _on_body_entered(body: Node2D) -> void:
 	print("你掉下来了")
 	timer.start()
 
-```````````````````````````````
+
 func _on_timer_timeout() -> void:
 	#重启场景树
 	get_tree().reload_current_scene()
+
+敌人：创建Node2D 创建AnimatedSprite2D节点  加载之前的 Killzone 碰撞游戏结束节点， Killzone 下创建碰撞箱子节点CollsionTion2D 节点
+
+接下来让史莱姆移动 在史莱姆根节点加载脚本
+
+extends Node2D
+
+var Speed : float = 100
+var fangxiang : int = 1
+
+func _physics_process(delta: float) -> void:
+	position.x += fangxiang * Speed * delta
+
+接下来让史莱姆左右摇摆 加入新节点 射线节点 RayCast2D 然后在观察窗口里调整方向 创建两个节点两个方向 然后敌人改变方向动画也改变方向
+找到 AnimatedSprite2D offset- Filp 开启后反转  加入代码调用
+
+func _physics_process(delta: float) -> void:
+	if right.is_colliding() :
+		fangxiang = -1
+		animated_sprite.flip_h=true
+		
+	elif left.is_colliding() :
+		fangxiang = 1
+		animated_sprite.flip_h=false
+死亡2.0  在死亡的时候加入慢放 修改游戏时间尺度 打开游戏结束代码
+func _on_body_entered(body: Node2D) -> void:
+	print("你掉下来了")
+	#设计时间以百分之五十 流逝
+	Engine.time_scale = 0.5
+	
+	timer.start()
+	
+	
+
+
+func _on_timer_timeout() -> void:
+	#设计时间流逝回归正常
+	Engine.time_scale =1
+	#重启场景树
+	get_tree().reload_current_scene()
+让我们设置死亡时 把玩家的碰撞箱子去掉 然后掉下去
+func _on_body_entered(body: Node2D) -> void:
+	print("你掉下来了")
+	#设计时间以百分之五十 流逝
+	Engine.time_scale = 0.5
+	body.get_node("CollisionShape2D").queue_free()
+	timer.start()
+
+玩家2.0 给玩家重新映射键位
+
+var direction := Input.get_axis("zuo", "you") 这一行基于玩家的输入 direction 来决定方向
+大于0是右  小于0是左  以此来反转玩家 动画
+	@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis("zuo", "you")
+	
+	if direction >0 :
+		animated_sprite.flip_h = false
+	elif direction<0:
+		animated_sprite.flip_h=true
+	
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+添加跑步动画和跳跃 动画 并添加代码加载 跑步和跳跃动画的播放
+	#如果玩家站在地板上 这个是文件自带函数 is_on_floor()
+	if  is_on_floor() :
+		if direction == 0 :
+			animated_sprite.play("idel")
+		else :
+			animated_sprite.play("run")
+	else :
+		animated_sprite.play("Tiao")
+
+下面添加游戏背景 文字 Label节点 其属性 Autowrap- word 可以换行
+
+添加一个游戏管理器并 显示得分 新建节点 node  添加脚本
+extends Node
+
+var score  = 0
+
+func add_defeng():
+	score += 1 
+
+
+去到硬币节点代码 调用 游戏管理器  将游戏管理器作为唯一单例节点
+然后显示文本得分同步代码如下
+extends Node
+
+var score  = 0
+@onready var label_4: Label = $Label4
+
+func add_defeng():
+	
+	score += 1 
+	
+	label_4.text = "你终于发现了华点你目前的得分是 " + str(score)
+	print(score)
+
+设置背景音乐 添加背景音乐 节点AudioStreamPlayer
+资料包设置循环播放  检查器设置自动播放 AutopLay 启用  设置 总线路音频 bus
+设置当前音乐节点为场景 且全局配置自动播放 独立场景树之外不会随着场景重置 而重置
+去到硬币场景 添加拾取音效  然后用 动画播放器 设置硬币可视关键帧率visibillty-visibel  然后 设置音乐播放帧率  设置删除节点函数  
+
+
 
