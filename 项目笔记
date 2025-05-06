@@ -50,3 +50,16 @@ func _physics_process(delta: float) -> void:
 然后创建硬币脚本代码 空白模板  添加碰撞信号 On_body_entered() 检测到玩家碰撞之后 摧毁当前节点
 	func _on_body_entered(body: Node2D) -> void:
 		queue_free()
+
+游戏结束： 相机会随玩家下坠 改成不下坠 点击相机节点检查器 limT bottom设置像素 表示相机最低到那个距离 尺子工具从横轴开始测量 Smoothed 开启平滑模式
+我们新建一个节点Area2D 在地图下方检测玩家是否掉下去了  掉下去重启游戏 设置碰撞collisiontion图层为2  命名为 KillZone 然后链接主场景在添加碰撞箱子
+然后为Killzone添加脚本   另外添加一个计时器 计时一秒 One_shot 然后重启场景
+func _on_body_entered(body: Node2D) -> void:
+	print("你掉下来了")
+	timer.start()
+
+```````````````````````````````
+func _on_timer_timeout() -> void:
+	#重启场景树
+	get_tree().reload_current_scene()
+
