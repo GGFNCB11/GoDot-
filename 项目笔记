@@ -36,4 +36,17 @@ func _physics_process(delta: float) -> void:
 添加完地图过后 因为我们不想玩家能和所有的图快碰撞所以 设置图层 再检查器里打开Physics Laters  选择下方检查窗绘制
 选择的时候 键盘C是清楚 F是复原
 下面设置相机跟随玩家  把相机设置为玩家的子节点，就会跟着玩家跑了 。然后为了确保玩家在游戏正中心也让运动更流畅 可以打开相机的运动平滑设置 position Smoothing.
-移动平台：
+移动平台：每当我们添加一个新元素的时候 第一次时间 想到的是新建场景  谢谢
+新场景 新节点 AnimateableBody2D可 动 画 的 2D 物理物体  添加Sprite2D 图片节点 然后裁剪掉多余平台图片 Region-Enabeld-编辑区域 开启像素吸附
+还有一步 给他添加一个长方形碰撞形状 添加节点CollisionShape2D 设置-RE
+然后链接主场景 修改玩家和平台优先渲染值Z值 去到玩家场景 找到Ordering-z Index  所有的物体默认渲染是0 .
+给平台加一个单方向碰撞 CollisionShape2D  - One Way Colli
+
+然后下面让平台动起来 添加新节点动画播放器AnimationPlayer,他几乎能让所有东西动起来
+添加动画move 找到平台Transform-posiontion 旁边的小钥匙 添加关键帧 然后 选中时间轴线华东一秒 选中平台移动 再点击小钥匙  设置循环播放 自动播放
+
+添加可拾取硬币 创建新节点新场景 Area2D	他不会与其他物体进行碰撞，只会有一个检测区域
+常见子节点AnimatedSprite2D 添加金币动画 自动播放 创建其碰撞节点 Collisiontion2D
+然后创建硬币脚本代码 空白模板  添加碰撞信号 On_body_entered() 检测到玩家碰撞之后 摧毁当前节点
+	func _on_body_entered(body: Node2D) -> void:
+		queue_free()
